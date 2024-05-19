@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.ir.backend.js.compile
 
 plugins {
 	id("org.springframework.boot") version "3.2.4"
@@ -29,6 +30,9 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-data-redis")
+	implementation("io.lettuce:lettuce-core:6.3.2.RELEASE")
+	implementation ("org.redisson:redisson-spring-boot-starter:3.22.1")
+	runtimeOnly("io.netty:netty-resolver-dns-native-macos")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	compileOnly("org.projectlombok:lombok")
