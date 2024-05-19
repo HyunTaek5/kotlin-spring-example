@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
-class PessimisticLockStockService(private var stackRepository: StockRepository) {
+class PessimisticLockStockService(private val stackRepository: StockRepository) {
 
   @Transactional
   fun decrease(productId: Long, quantity: Long) {
