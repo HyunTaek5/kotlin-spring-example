@@ -3,6 +3,9 @@ package com.example.study.demo.service
 import com.example.study.demo.DemoApplication
 import com.example.study.demo.domain.Stock
 import com.example.study.demo.repository.StockRepository
+import java.util.concurrent.CountDownLatch
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
@@ -32,5 +35,27 @@ class StockServiceTest(
     val stock: Stock = stockRepository.findById(1).get()
 
     assertEquals(95, stock.getQuantity())
+  }
+
+  @Test
+  fun 동시에_100개_요청() {
+    val threadCount = 100
+    val executorService: ExecutorService = Executors.newFixedThreadPool(32)
+
+    val latch = CountDownLatch(threadCount)
+
+    for (i in 1..threadCount) {
+      executorService.submit {
+        try {
+          stockService.decrease(1, 1)
+        } finally {
+          latch.countDown()
+        }
+      }
+    }
+
+    val stock: Stock = stockRepository.findById(1).get()
+
+    assertEquals(0, stock.getQuantity())
   }
 }
