@@ -15,7 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest(classes = [DemoApplication::class])
 class StockServiceTest(
-    @Autowired private val stockService: StockService,
+    @Autowired private val stockService: PessimisticLockStockService,
     @Autowired private val stockRepository: StockRepository
 ) {
   @BeforeEach
@@ -47,12 +47,14 @@ class StockServiceTest(
     for (i in 1..threadCount) {
       executorService.submit {
         try {
-          stockService.decrease(1, 1)
+          stockService.decrease(1L, 1L)
         } finally {
           latch.countDown()
         }
       }
     }
+
+    latch.await()
 
     val stock: Stock = stockRepository.findById(1).get()
 
