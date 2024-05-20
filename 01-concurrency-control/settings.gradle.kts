@@ -1,1 +1,1 @@
-rootProject.name = "demo"
+rootProject.name = "01-concurrency-control"
