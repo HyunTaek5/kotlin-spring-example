@@ -38,3 +38,10 @@ services:
       MYSQL_DATABASE: test-db
     ports:
       - '33071:3306'
+
+  redis:
+    image: redis:6.0
+    container_name: dev-redis
+    restart: always
+    ports:
+      - '6379:6379'
