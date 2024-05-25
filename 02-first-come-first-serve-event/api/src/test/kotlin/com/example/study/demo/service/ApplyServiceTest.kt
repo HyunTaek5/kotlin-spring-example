@@ -42,6 +42,8 @@ class ApplyServiceTest(
 
     latch.await()
 
+    Thread.sleep(10000)
+
     val count = couponRepository.count()
 
     assertThat(count).isEqualTo(100)
